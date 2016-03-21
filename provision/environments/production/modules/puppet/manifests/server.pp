@@ -54,7 +54,7 @@ class puppet::server(
   }
 
   file { 'puppet.conf':
-    path    => '/etc/puppet/puppet.conf',
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
@@ -64,7 +64,7 @@ class puppet::server(
   }
 
   file { 'site.pp':
-    path    => '/etc/puppet/manifests/site.pp',
+    path    => '/etc/puppetlabs/code/environment/production/manifests/site.pp',
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
@@ -72,8 +72,17 @@ class puppet::server(
     require => Package[ 'puppetmaster' ],
   }
 
+  file { '/etc/default/puppetserver':
+    path    => '/etc/default/puppetserver',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0744',
+    source  => 'puppet:///modules/puppet/puppetserver',
+    require => Package[ 'puppetmaster' ],
+  }
+
   file { 'autosign.conf':
-    path    => '/etc/puppet/autosign.conf',
+    path    => '/etc/puppetlabs/puppet/autosign.conf',
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
@@ -81,7 +90,7 @@ class puppet::server(
     require => Package[ 'puppetmaster' ],
   }
 
-  file { '/etc/puppet/manifests/nodes.pp':
+  file { '/etc/puppet/code/environments/production/manifests/nodes.pp':
     ensure  => link,
     target  => '/vagrant/nodes.pp',
     require => Package[ 'puppetmaster' ],
@@ -95,8 +104,8 @@ class puppet::server(
   }
 
   service { 'puppetmaster':
-    enable => true,
     ensure => running,
+    enable => true,
   }
 
 }

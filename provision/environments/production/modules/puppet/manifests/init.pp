@@ -34,7 +34,7 @@ class puppet(
     }
   }
 
-  package { 'puppet':
+  package { 'puppet-agent':
     ensure => $ensure,
   }
 
@@ -42,14 +42,14 @@ class puppet(
   exec { 'start_puppet':
     command => '/bin/sed -i /etc/default/puppet -e "s/START=no/START=yes/"',
     onlyif  => '/usr/bin/test -f /etc/default/puppet',
-    require => Package[ 'puppet' ],
+    require => Package[ 'puppet-agent' ],
     before  => Service[ 'puppet' ],
   }
 
   service { 'puppet':
-    enable  => true,
     ensure  => running,
-    require => Package[ 'puppet' ],
+    enable  => true,
+    require => Package[ 'puppet-agent' ],
   }
 
 }
