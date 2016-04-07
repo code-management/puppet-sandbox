@@ -1,4 +1,4 @@
 nodes.pp
 modules/*
 .vagrant
-environments/production/*
+environments/production/**
