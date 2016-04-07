@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
       node_config.vm.box_url = 'http://files.vagrantup.com/' + node_config.vm.box + '.box'
       node_config.vm.hostname = node[:hostname] + '.' + domain
       node_config.vm.network :private_network, ip: node[:ip]
-      node_config.vm.synced_folder "storage/" "/storage"
+      node_config.vm.synced_folder "storage/", "/storage"
 
       if node[:fwdhost]
         node_config.vm.network :forwarded_port, guest: node[:fwdguest], host: node[:fwdhost]
