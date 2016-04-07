@@ -46,6 +46,13 @@ class puppet(
     before  => Service[ 'puppet' ],
   }
 
+  file { '/home/vagrant/.bashrc':
+    ensure  => file,
+    owner   => 'vagrant',
+    group   => 'vagrant',
+    content => template('puppet/bashrc'),
+  }
+
   service { 'puppet':
     ensure  => running,
     enable  => true,

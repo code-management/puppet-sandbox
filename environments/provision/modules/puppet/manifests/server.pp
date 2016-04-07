@@ -38,12 +38,12 @@ class puppet::server(
 
   # required to prevent syslog error on ubuntu
   # https://bugs.launchpad.net/ubuntu/+source/puppet/+bug/564861
-  file { [ '/etc/puppet', '/etc/puppet/files' ]:
+  file { [ '/etc/puppetlabs' ]:
     ensure => directory,
-    before => Package[ 'puppetmaster' ],
+    before => Package[ 'puppetserver' ],
   }
 
-  package { 'puppetmaster':
+  package { 'puppetserver':
     ensure => $ensure,
     name   => $package_name,
   }
@@ -54,56 +54,60 @@ class puppet::server(
   }
 
   file { 'puppet.conf':
+    ensure  => file,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
-    source  => 'puppet:///modules/puppet/puppet.conf',
-    require => Package[ 'puppetmaster' ],
-    notify  => Service[ 'puppetmaster' ],
+    content => template('puppet/puppet.conf'),
+    require => Package[ 'puppetserver' ],
+    notify  => Service[ 'puppetserver' ],
   }
 
   file { 'site.pp':
-    path    => '/etc/puppetlabs/code/environment/production/manifests/site.pp',
+    ensure  => file,
+    path    => '/etc/puppetlabs/code/environments/production/manifests/site.pp',
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
-    source  => 'puppet:///modules/puppet/site.pp',
-    require => Package[ 'puppetmaster' ],
+    content => template('puppet/site.pp'),
+    require => Package[ 'puppetserver' ],
   }
 
   file { '/etc/default/puppetserver':
+    ensure  => file,
     path    => '/etc/default/puppetserver',
     owner   => 'root',
     group   => 'root',
     mode    => '0744',
-    source  => 'puppet:///modules/puppet/puppetserver',
-    require => Package[ 'puppetmaster' ],
+    content => template('puppet/puppetserver'),
+    require => Package[ 'puppetserver' ],
   }
 
   file { 'autosign.conf':
+    ensure  => file,
     path    => '/etc/puppetlabs/puppet/autosign.conf',
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
     content => '*',
-    require => Package[ 'puppetmaster' ],
+    require => Package[ 'puppetserver' ],
   }
 
-  file { '/etc/puppet/code/environments/production/manifests/nodes.pp':
+  file { '/etc/puppetlabs/code/environments/production/manifests/nodes.pp':
     ensure  => link,
-    target  => '/vagrant/nodes.pp',
-    require => Package[ 'puppetmaster' ],
+    target  => '/vagrant/environments/production/nodes.pp',
+    require => Package[ 'puppetserver' ],
   }
 
   # initialize a template file then ignore
-  file { '/vagrant/nodes.pp':
-    ensure  => present,
+  file { '/vagrant/environments/production/manifests/nodes.pp':
+    ensure  => file,
     replace => false,
-    source  => 'puppet:///modules/puppet/nodes.pp',
+    content => template('puppet/nodes.pp'),
   }
 
-  service { 'puppetmaster':
+  service { 'puppetserver':
     ensure => running,
     enable => true,
   }

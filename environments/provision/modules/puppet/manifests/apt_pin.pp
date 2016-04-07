@@ -34,8 +34,8 @@ class puppet::apt_pin(
 
   # ensure the pinning file exists before packages are installed
   Class['puppet::apt_pin'] -> Package['puppet']
-  if defined(Package['puppetmaster']) {
-    Class['puppet::apt_pin'] -> Package['puppetmaster']
+  if defined(Package['puppetserver']) {
+    Class['puppet::apt_pin'] -> Package['puppetserver']
   }
 
 }
