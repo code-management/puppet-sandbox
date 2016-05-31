@@ -34,6 +34,8 @@ Puppet Sandbox has been designed for and tested with Vagrant base boxes running:
 
 * CentOS 6.3
 * CentOS 5.8
+* Ubuntu 15.10 - Wily Werewolf
+* Ubuntu 14.04 - Trusty Tahr
 * Ubuntu 12.04 - Precise Pangolin
 * Ubuntu 10.04 - Lucid Lynx
 
@@ -43,12 +45,12 @@ Usage
 =====
 
 Make sure you have a compatible Vagrant base box (if you don't have one
-already, it will download a 64-bit Ubuntu 12.04 box for you), and then you
+already, it will download a 64-bit Ubuntu 15.10 box for you), and then you
 should be good to clone this repo and go:
 
     $ vagrant box list
     precise64
-    $ git clone git://github.com/elasticdog/puppet-sandbox.git
+    $ git clone git://github.com/code-management/puppet-sandbox.git
     $ cd puppet-sandbox/
 
 If you want a CentOS base box to work from, I highly recommend the boxes
@@ -70,12 +72,12 @@ The following tasks will be handled automatically:
    communicate with each other.
 4. All client certificate requests will be automatically signed by the master
    server.
-5. The master server will utilize the `nodes.pp` file and `modules/` directory
+5. The master server will utilize the `environments/production` directory
    that exist **outside of the VMs** (in your puppet-sandbox Git working
    directory) by utilizing VirtualBox's shared folder feature.
 
 All of this is handled using Vagrant's provisioning capabilities and is
-controlled by the manifests under the `provision/` directory. In theory, you
+controlled by the manifests under the `environments/provision/` directory. In theory, you
 should never have to touch any of that code directly unless you're working to
 improve Puppet Sandbox.
 
@@ -90,16 +92,16 @@ Developing New Modules
 ----------------------
 
 To start developing a new Puppet module, just create the standard module
-structure under `modules/` in your puppet-sandbox Git working directory (an
+structure under `environments/production/modules/` in your puppet-sandbox Git working directory (an
 example "helloworld" module should exist there already). This directory is
 automatically in the Puppet master server's _modulepath_, and any changes will
 be picked up immediately.
 
-    $ mkdir -p modules/users/manifests
-    $ vim modules/users/manifests/init.pp
+I highly recommend using @garether's fantastic [puppet-module-skeleton](https://github.com/garethr/puppet-module-skeleton) 
+when initializing your new Puppet modules.
 
 To have your module actually applied to one or more of the nodes, edit the
-`nodes.pp` file and include your classes...that's it!
+`environment/production/nodes.pp` file and include your classes...that's it!
 
 Check Your Handiwork
 --------------------
