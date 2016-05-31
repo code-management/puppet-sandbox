@@ -53,6 +53,16 @@ class puppet(
     content => template('puppet/bashrc'),
   }
 
+  # as vagrant uses Puppet 3 to provision on many systems,
+  # we need to manually unmask the Puppet service when running
+  # under systemd
+  exec { 'unmask_puppet_service':
+    command => '/bin/systemctl unmask puppet',
+    unless  => '/bin/bash -c \'[ "$(which systemd) == "" ]\'',
+    require => Package['puppet-agent'],
+    before  => Service['puppet'],
+  }
+
   service { 'puppet':
     ensure  => running,
     enable  => true,
