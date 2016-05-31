@@ -1,3 +1,15 @@
+Disclaimer
+==========
+
+This module is a fork of the fantastic [elasticdog/puppet-sandbox](https://github.com/elasticdog/puppet-sandbox) 
+repository. This fork reworks the layout of that solution to provide:
+
+- a Puppet4 environment
+- shared network storage between VMs
+- support for Ubuntu versions later than 12.04
+
+Many thanks to the devs at elasticdog for providing a solid base to build upon.
+
 Description
 ===========
 
