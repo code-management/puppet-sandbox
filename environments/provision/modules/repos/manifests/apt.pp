@@ -17,8 +17,9 @@
 #
 class repos::apt {
 
+  $codename = 'trusty'
   exec { 'wget_repo_deb':
-    command => "wget https://apt.puppetlabs.com/puppetlabs-release-pc1-${lsbdistcodename} -O /tmp/puppetlabs.deb",
+    command => "wget https://apt.puppetlabs.com/puppetlabs-release-pc1-${codename} -O /tmp/puppetlabs.deb",
     path    => '/usr/bin',
     creates => '/tmp/puppetlabs.deb',
   } ~>
