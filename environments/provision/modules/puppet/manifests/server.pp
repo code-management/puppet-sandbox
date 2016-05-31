@@ -96,7 +96,7 @@ class puppet::server(
 
   file { '/etc/puppetlabs/code/environments/production/manifests/nodes.pp':
     ensure  => link,
-    target  => '/vagrant/environments/production/nodes.pp',
+    target  => '/vagrant/environments/production/manifests/nodes.pp',
     require => Package[ 'puppetserver' ],
   }
 
