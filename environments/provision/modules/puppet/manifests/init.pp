@@ -58,7 +58,7 @@ class puppet(
   # under systemd
   exec { 'unmask_puppet_service':
     command => '/bin/systemctl unmask puppet',
-    unless  => '/bin/bash -c \'[ "$(which systemd) == "" ]\'',
+    unless  => '/bin/bash -c \'[ "$(which systemd)" == "" ]\'',
     require => Package['puppet-agent'],
     before  => Service['puppet'],
   }
