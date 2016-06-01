@@ -17,11 +17,11 @@ Vagrant.configure("2") do |config|
       node_config.vm.hostname = node[:hostname] + '.' + domain
       node_config.vm.network :private_network, ip: node[:ip]
       node_config.vm.synced_folder "storage/", "/storage",
-        owner: 'root',
-        group: 'root'
+        owner: 'puppet',
+        group: 'puppet'
       node_config.vm.synced_folder ".", "/vagrant",
-        owner: 'root',
-        group: 'root'
+        owner: 'puppet',
+        group: 'puppet'
 
       if node[:fwdhost]
         node_config.vm.network :forwarded_port, guest: node[:fwdguest], host: node[:fwdhost]

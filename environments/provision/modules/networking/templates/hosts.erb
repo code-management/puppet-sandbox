@@ -1,6 +1,9 @@
-#127.0.0.1       localhost <%= @fqdn %>
-
+<% if @hostname == 'puppet' %>
+    127.0.0.1       localhost <%= @fqdn %> <%= @hostname %>
+<% else %>
 172.16.32.10 puppet.<%= @domain %> puppet
+<% end %>
+
 172.16.32.11 client1.<%= @domain %> client1
 172.16.32.12 client2.<%= @domain %> client2
 

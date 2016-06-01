@@ -56,8 +56,8 @@ class puppet::server(
   file { 'puppet.conf':
     ensure  => file,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'puppet',
+    group   => 'puppet',
     mode    => '0644',
     content => template('puppet/puppet.conf'),
     require => Package[ 'puppetserver' ],
@@ -67,8 +67,8 @@ class puppet::server(
   file { 'puppetserver.conf':
     ensure  => file,
     path    => '/etc/puppetlabs/puppetserver/conf.d/puppetserver.conf',
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'puppet',
+    group   => 'puppet',
     mode    => '0644',
     content => template('puppet/puppetserver.conf'),
     require => Package[ 'puppetserver' ],
@@ -78,8 +78,8 @@ class puppet::server(
   file { 'site.pp':
     ensure  => file,
     path    => '/etc/puppetlabs/code/environments/production/manifests/site.pp',
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'puppet',
+    group   => 'puppet',
     mode    => '0644',
     content => template('puppet/site.pp'),
     require => Package[ 'puppetserver' ],
@@ -88,8 +88,8 @@ class puppet::server(
   file { '/etc/default/puppetserver':
     ensure  => file,
     path    => '/etc/default/puppetserver',
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'puppet',
+    group   => 'puppet',
     mode    => '0744',
     content => template('puppet/puppetserver'),
     require => Package[ 'puppetserver' ],
@@ -98,7 +98,7 @@ class puppet::server(
   file { 'autosign.conf':
     ensure  => file,
     path    => '/etc/puppetlabs/puppet/autosign.conf',
-    wner  => 'root',
+    owner   => 'puppet',
     group   => 'puppet',
     mode    => '0644',
     content => '*',
